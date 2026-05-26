@@ -71,15 +71,15 @@ The chengyu group loosely by failure-mode:
 **Meta-companion**
 - `panda-doctor` (熊貓博士) — chengyu selector + explainer + crystalizer + auditor for the catalog itself
 
-Each SKILL.md embeds: handle (Traditional + Simplified characters), reading (pinyin, or romaji for the Japanese-origin entries), schema description, "when this applies" symptoms, explicit behaviours, anti-pattern, and a brief etymology.
+Each SKILL.md embeds: handle (Han characters 漢字), reading (pinyin, or romaji for the Japanese-origin entries), schema description, "when this applies" symptoms, explicit behaviours, anti-pattern, and a brief etymology.
 
 ## Architectural factoring
 
 - **Cultural handle** = interface. What you remember and reach for.
 - **SKILL.md** = implementation. What the agent receives — schema + etymology in the same shot, so the model can activate the named circuit rather than just executing instructions.
-- A few skills ship as deliberate exceptions to the lock-to-idiom-form rule (below), each with explicit rationale in the SKILL.md:
-  - `chengyu-create-something-from-nothing` — adversarial-core chengyu reclaimed for productive bottom-K sampling, with hardened safety gates
-  - `panda-doctor` — non-chengyu pedagogical companion from the same cultural tradition (成語動畫廊)
+- A couple of skills are deliberate exceptions to specific catalog norms (each scoped to the *one* norm it bends, with rationale in its SKILL.md) — note these are *not* exceptions to the idiom-form/origin rules below, which are inclusive by design:
+  - `chengyu-create-something-from-nothing` — exception to "skills are clean positive-use disciplines": an adversarial-core chengyu reclaimed for productive bottom-K sampling, with hardened safety gates
+  - `panda-doctor` — exception to "every skill is a four-character idiom": a non-idiom pedagogical companion from the same cultural tradition (成語動畫廊)
 
 ## Discipline
 
