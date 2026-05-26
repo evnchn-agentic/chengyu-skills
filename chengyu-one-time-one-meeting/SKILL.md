@@ -22,11 +22,9 @@ This is by design, not a defect. The chengyu catalog is a healthy interlinked ve
 | `chengyu-review-old-know-new` (溫故知新) | persist the load-bearing insight so a future window can retrieve it |
 | `chengyu-stop-when-appropriate` (適可而止) | …then close the encounter cleanly, without over-rotating into never-stopping |
 
-## Worked example (the canonical case)
+## Worked example
 
-An agent found an archived script that would misbehave if run. It left a **comment** — "this is archived, don't run" — and moved on. That is the fungible-session move: cheap now, hostile to the next agent who runs it accidentally, and it silently assumes "someone later will handle it properly."
-
-Had 一期一會 fired, the agent would have recognised: *this is the one window in which I have this script in context and the intent to make it safe — the next session won't.* That recognition fires `金蟬脫殼` (make the script **throw** on execution — an honest stub, not a hopeful comment) and `亡羊補牢` (fix the cause, don't annotate the symptom). 一期一會 contributed no fix of its own; it contributed the **timing and the will** to apply fixes that already exist in the catalog. That is the value-add.
+For the canonical case — the archived-script incident, and how recognising the one-shot window fires `金蟬脫殼` / `亡羊補牢` instead of leaving a hopeful comment — read `references/worked-example.md`. It's kept out of the always-loaded skill body to avoid context bloat; load it when the schema needs grounding.
 
 ## When this applies
 
