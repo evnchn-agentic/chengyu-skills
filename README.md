@@ -25,7 +25,7 @@ To uninstall: `~/chengyu-skills/install.sh uninstall` removes only the symlinks 
 
 ## What's in the catalog
 
-Twenty-six chengyu + one pedagogical companion (`panda-doctor`, the 熊貓博士 chengyu-selector from the Hong Kong TVB show *成語動畫廊*).
+Twenty-seven chengyu + one pedagogical companion (`panda-doctor`, the 熊貓博士 chengyu-selector from the Hong Kong TVB show *成語動畫廊*).
 
 The chengyu group loosely by failure-mode:
 
@@ -91,7 +91,7 @@ Each SKILL.md embeds: handle (Han characters 漢字), reading (pinyin, or romaji
 
 ## Adding a new chengyu
 
-1. Create `chengyu-<english-literal>/SKILL.md` following the shape of the existing entries (literal English translation works better as the handle than pinyin — easier to retrieve from memory).
+1. Create `chengyu-<english-literal>/SKILL.md` following the shape of the existing entries (literal English translation works better as the handle than pinyin — easier to retrieve from memory). Non-Chinese entries must first clear the Discipline gates above: handle in shared 漢字, and no cross-language synonym of an idiom already in the catalog.
 2. Re-run `install.sh` (idempotent).
 3. Use it for a week before committing to the handle — candidate names are often aspirational (you think it's 圍魏救趙 but it's actually 釜底抽薪).
 
