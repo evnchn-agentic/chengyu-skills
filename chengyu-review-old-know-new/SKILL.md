@@ -1,6 +1,6 @@
 ---
 name: chengyu-review-old-know-new
-description: Use when bringing forward priors from PAST sessions / cross-agent history before doing new work — NOT about re-reading the current context window (which is trivially in-context). Specifically triggered when auto-compact is lossy, when cross-session reference is needed, when the same topic has been treated before, or when the original work was done in a different agent's session. The discipline is targeted historical retrieval via grep + read of session JSONLs, then promotion to memory if the prior deserves persistence.
+description: Use when bringing forward priors from PAST sessions / cross-agent history before doing new work — NOT about re-reading the current context window (which is trivially in-context). Specifically triggered when auto-compact is lossy, when cross-session reference is needed, when the same topic has been treated before, when the original work was done in a different agent's session, or when you need to locate/date a past session JSONL or answer "have we done this before / what did we decide". The discipline is targeted historical retrieval via grep + read of session JSONLs (incl. the mtime/substring/leading-dash traps that make naive search silently return nothing), then promotion to memory if the prior deserves persistence.
 ---
 
 # 溫故知新 — review the old to know the new
@@ -32,13 +32,29 @@ Symptoms that this schema applies:
 
 1. **Identify the topic / decision / artifact** you need historical context on. Be specific: "I need to find the prior treatment of [particular API design]" beats "review my history".
 
-2. **Grep the session archive for matching keywords across JSONL files.** Claude Code stores session history at `~/.claude/projects/<project-encoded-path>/*.jsonl`. Use multiple keyword variations; the prior might use different wording. Sort by modification time to find recent treatments first.
+2. **Grep the session archive for matching keywords across JSONL files.** Claude Code stores session history at `~/.claude/projects/<cwd-encoded>/*.jsonl` — the dir encodes the *full* working directory, so search across all of `~/.claude/projects/*/`, not just one. Use multiple keyword variations; the prior might use different wording. Date candidates by the **first `"timestamp"` inside each file, not by file mtime** (mtime drifts and lies) — see Mechanics below for why, and for the grep traps that silently return "nothing found".
 
 3. **Read the matching sessions** (or the relevant portions). Don't re-read everything — the chengyu is about *targeted* historical retrieval, not exhaustive re-reading.
 
 4. **State explicitly what you found**: "Per session [filename / date]: [decision/finding/treatment]". Cite the prior so the user can verify if needed.
 
 5. **Update memory if the prior should be promoted to long-term storage** — write to your skill's memory location. A prior that resurfaces twice is a candidate for permanent memory.
+
+## Mechanics (the how)
+
+The discipline above fails quietly if the search itself is wrong — and the failure mode is the worst one: a *false "no prior exists"* that sends you re-deriving. The traps:
+
+**Where sessions live.** `~/.claude/projects/<cwd-encoded>/<session-uuid>.jsonl`. The dir encodes the *full* working directory (slashes → dashes), e.g. `-Users-you-myproject` — **not** one flat per-home dir. So a project's sessions are in their own dir; sweep `~/.claude/projects/*/`. The currently-live session is the most-recently-written JSONL: `ls -t ~/.claude/projects/*/*.jsonl | head -1`.
+
+**Two filters that look reliable but lie:**
+- **mtime ≠ session date.** File mtime drifts from OS access / unrelated tooling. Date a session by its *first* in-file timestamp: `grep -m1 -oE '"timestamp":"[^"]+"' f.jsonl`. (mtime is trustworthy for exactly one thing: "which session is live right now.")
+- **`grep -c keyword` ≠ relevance.** Substring matches inflate (`exam` inside `example`, listing boilerplate, SVG refs). Anchor on whole-word `\bWORD\b`, on role (`-E '"role":\s*"user"'`), or on the unambiguous `"cwd"` field.
+
+**Two traps that return a false empty:**
+- **Leading-dash paths swallow the grep.** Project dirs start with `-`; `grep PATTERN */*.jsonl` parses `-Users…` as option flags and returns nothing — which reads as "no prior" when the search never actually ran. Use `grep -rl PATTERN .`, a `./` prefix, or the `--` end-of-options guard: `grep -lE PATTERN -- */*.jsonl`. **Always canary a known-present term** in the same sweep — zero hits on the canary means your grep is broken, not the archive empty. (This is the operational backing for the "absence isn't evidence of absence" anti-pattern below.)
+- **Big JSONLs are often sidechain-bloat** (90% screenshots / stream events / one giant Read). Triage by real conversation volume first: `grep -cE '"role":\s*"user"' f.jsonl` — 100+ is a real conversation, <20 a single-task agent. Read line ranges, not the whole file.
+
+**Mining a large transcript — divide and conquer.** A multi-MB / thousands-of-lines history won't fit one agent. Dispatch parallel subagents — roughly **ceil(lines / 1000)**, each a thematic slice (decisions / findings / commands / preferences, *and why failed approaches failed*) — then merge their structured reports. A "supercharged uncompact": costly in tokens, but recovers what auto-compact discarded.
 
 ## Cross-node / cross-machine case (optional)
 
@@ -47,7 +63,7 @@ If you operate Claude Code across multiple machines (e.g. a homelab, a work lapt
 - Otherwise, SSH to the original machine and grep the JSONLs there
 - Pull the matching JSONL back if you need to read it locally
 
-This is an optional extension — single-machine users can ignore.
+A session can even be *resumed* on another machine by copying its JSONL into the target's `~/.claude/projects/<cwd-encoded>/` dir — but the file's baked-in `cwd` still points at the original home: fine for talk-only replay, but tool calls referencing the original machine's paths won't re-run, and hooks don't transfer (the target uses its own config). This is an optional extension — single-machine users can ignore.
 
 ## Anti-pattern
 
