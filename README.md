@@ -4,6 +4,34 @@
 
 This is the operator-level discipline of using cultural handles as compressed prompt circuits. A chengyu like 抛磚引玉 ("throw a brick to attract jade") names a specific schema (emit a deliberately rough first pass to elicit refinement) that English doesn't have a clean single-word handle for. The model knows what 抛磚引玉 *means* from training; the SKILL.md teaches the agent what to *do* when the handle fires.
 
+## Start with the core — 4 skills, ~80% less always-on weight
+
+New here? You don't need all 27. **Live usage across this catalog picked a clear podium** — install the core, and add more only when you actually reach for them.
+
+```bash
+git clone https://github.com/evnchn-agentic/chengyu-skills.git ~/chengyu-skills
+~/chengyu-skills/install.sh core      # links the core skills (additive)
+```
+
+`install.sh` with no argument still installs the **full** catalog — fully backwards-compatible, so existing clones, scripts, and bookmarked links keep working unchanged. `install.sh core` is *additive*; run `install.sh uninstall` first if you want an exclusively-core setup.
+
+**The core = the natural-selection winners + the one dependency that keeps it self-contained:**
+
+| Skill | Live invocations | In the core because |
+|---|---|---|
+| `chengyu-throw-brick-attract-jade` (抛磚引玉) | 35 | rank 1 |
+| `chengyu-review-old-know-new` (溫故知新) | 30 | rank 2 |
+| `chengyu-listen-all-sides-see-clearly` (兼聽則明) | 27 | rank 3 |
+| `chengyu-create-something-from-nothing` (無中生有) | 3 | **dependency** — `listen-all-sides` inter-triggers it, so it's included for the reference to resolve (subagent-only; won't fire on its own) |
+
+*Selection signal: across ~196 analysed sessions the top 3 account for **92 of 127** chengyu invocations (~72%), while 14 of the catalog's idioms were invoked zero times. Counts are aggregate; the underlying sessions are private and not published.*
+
+**Why a core at all — tokens.** Every installed skill's description sits in the always-on skill list. The core's descriptions total **~555 tokens vs ~2.9k for the full catalog (~80% lighter)** — the proven schemas without the long tail you never fire.
+
+> Note: `chengyu-listen-all-sides-see-clearly` suggests two `superpowers:` skills (`requesting-code-review`, `dispatching-parallel-agents`) as optional reviewer channels — soft defaults, not hard dependencies; it works without the `superpowers` plugin installed.
+
+**Composition rides on top.** Task-skills that *compose* several of these — e.g. a transcript prompt-injection audit assembled from `listen-all-sides` plus the **non-core** `chengyu-seeing-is-believing` — ship as opt-in PRs layered over the core, never as always-on weight.
+
 ## Quickstart
 
 ```bash
