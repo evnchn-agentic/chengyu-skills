@@ -32,13 +32,23 @@ Symptoms that this schema applies:
 
 1. **Identify the topic / decision / artifact** you need historical context on. Be specific: "I need to find the prior treatment of [particular API design]" beats "review my history".
 
-2. **Grep the session archive for matching keywords across JSONL files.** Claude Code stores session history at `~/.claude/projects/<project-encoded-path>/*.jsonl`. Use multiple keyword variations; the prior might use different wording. Sort by modification time to find recent treatments first.
+2. **Grep the session archive for matching keywords across JSONL files.** Claude Code stores session history at `~/.claude/projects/<project-encoded-path>/*.jsonl`. Use multiple keyword variations; the prior might use different wording. To date/rank matches use the **first `"timestamp"` inside each file**, not file mtime — mtime lies for dating past sessions (see *Reliable retrieval mechanics* below).
 
 3. **Read the matching sessions** (or the relevant portions). Don't re-read everything — the chengyu is about *targeted* historical retrieval, not exhaustive re-reading.
 
 4. **State explicitly what you found**: "Per session [filename / date]: [decision/finding/treatment]". Cite the prior so the user can verify if needed.
 
 5. **Update memory if the prior should be promoted to long-term storage** — write to your skill's memory location. A prior that resurfaces twice is a candidate for permanent memory.
+
+## Reliable retrieval mechanics (the obvious filters both lie)
+
+Targeted retrieval only compounds if the grep actually *runs* and the ranking is *real*. Three footguns — each silently returns a wrong answer that reads like a confident "no prior":
+
+- **File mtime ≠ session date.** mtime drifts from OS access / unrelated tooling. Date a session by the **first `"timestamp"` in the file**: `grep -m1 '"timestamp"' f.jsonl | grep -oE '[0-9]{4}-[0-9]{2}-[0-9]{2}'`. (mtime is reliable *only* for "which session is being written right now".)
+- **Substring count ≠ relevance.** `exam` matches inside `example`; org-listing strings and SVG refs inflate counts. Anchor with whole-word / role / cwd: `grep -cE '\bFOO\b' f.jsonl`, `grep -m1 '"cwd"' f.jsonl` (cwd is unambiguous ground truth).
+- **Leading-dash paths swallow the grep.** Project dirs are path-encoded with a leading `-` (`-Users-evnchn`, `-home-evnchn`), so `grep PAT */*.jsonl` from `~/.claude/projects/` parses the paths as **option flags** and returns nothing — a false "no prior" where the search never ran. Use `grep -rl PAT .` (paths generated internally), a `./` prefix, or the `--` end-of-options guard: `grep -lE PAT -- */*.jsonl`. **Canary a known-present term** in the same sweep — zero canary hits means a broken grep, not an empty archive.
+
+> Absence of a hit is evidence of absence *only* once the grep is proven to run (canary) and keyword synonyms are exhausted.
 
 ## Cross-node / cross-machine case (optional)
 
