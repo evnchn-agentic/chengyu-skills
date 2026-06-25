@@ -56,6 +56,14 @@ The discipline above fails quietly if the search itself is wrong — and the fai
 
 **Mining a large transcript — divide and conquer.** A multi-MB / thousands-of-lines history won't fit one agent. Dispatch parallel subagents — roughly **ceil(lines / 1000)**, each a thematic slice (decisions / findings / commands / preferences, *and why failed approaches failed*) — then merge their structured reports. A "supercharged uncompact": costly in tokens, but recovers what auto-compact discarded.
 
+**Large archive — bounded-time, recents-first.** When the whole archive is GBs (`du -sh ~/.claude/projects` — it can reach 1–2 GB), a blind full grep is slow and usually unnecessary. You can't grep *faster*, but you can grep *smarter*: go **newest-first** (a partial sweep then surfaces the likeliest prior first) and **bound the set by a time window**. Recency ordering is cheap and reliable via mtime/`ls -t`; bound the candidate set with `find` (absolute start path → paths begin with `/`, so the leading-dash trap doesn't bite here):
+```bash
+# the 50 most-recently-touched sessions, newest-first, then grep — stop when you have enough
+find ~/.claude/projects -name '*.jsonl' -mtime -21 | xargs ls -t 2>/dev/null | head -50 | xargs grep -lI "PATTERN"
+# explicit date window instead of "last N days":   -newermt 2026-06-01 ! -newermt 2026-06-15
+```
+Widen the window (`-mtime -60`, then unbounded) only if the recent slice comes up empty. **Honesty rule:** a time- or budget-bounded sweep is *partial* — report it as "searched the N most-recent (≥ DATE); older M−N unsearched", never as a clean "no prior exists". Same discipline as the canary: absence is evidence of absence only once the search is proven *complete*, and a bounded sweep by definition isn't.
+
 ## Cross-node / cross-machine case (optional)
 
 If you operate Claude Code across multiple machines (e.g. a homelab, a work laptop, a personal desktop), the same skill extends:
