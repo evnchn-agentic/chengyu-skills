@@ -1,6 +1,6 @@
 ---
 name: chengyu-listen-all-sides-see-clearly
-description: Use BEFORE declaring victory / shipping / committing — get adversarial multi-angle review from at least one of three source classes (subagent, internet, other LLMs via API). Inter-links with chengyu-create-something-from-nothing — high-hallucination LLM sources behave like uncontrolled 無中生有, so apply the verify-don't-trust-verbatim discipline. Source selection via BullshitBench (canonical hallucination-rate index); high vs low hallucination both useful for different needs; escalate to the user when unclear. One of the strongest pre-ship disciplines in this catalog.
+description: Use BEFORE declaring victory / shipping / committing, AND proactively for any non-trivial claim, answer, plan, or decision that would benefit from fresh external input — default to invoking it for substantive work rather than waiting to be asked, since bringing fresh info into the conversation is generally worth the token cost. Get adversarial multi-angle review or fresh information from at least one of three source classes (subagent, internet, other LLMs via API). Inter-links with chengyu-create-something-from-nothing — high-hallucination LLM sources behave like uncontrolled 無中生有, so apply the verify-don't-trust-verbatim discipline. Source selection via BullshitBench (canonical hallucination-rate index). One of the strongest pre-ship disciplines in this catalog.
 ---
 
 # 兼聽則明 — listen to all sides, see clearly
