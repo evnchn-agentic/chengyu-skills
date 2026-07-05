@@ -11,14 +11,20 @@ REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SKILLS_DIR="${HOME}/.claude/skills"
 ACTION="${1:-install}"
 
-# Core pack = live-usage podium + the dependency closure that keeps it self-contained.
-# create-something-from-nothing is pulled in because listen-all-sides inter-triggers it;
-# omitting it would leave a dangling reference. Keep this list in sync with README.md.
+# Core pack = live-usage podium + the OPERATIVE dependencies a core skill actually invokes.
+# listen-all-sides operatively invokes create-something-from-nothing (subagent ideation) AND
+#   seeing-is-believing (the "Verify 眼見為實" step of its prompt-injection audit) — so those resolve.
+# know-what-you-dont-know ships as seeing-is-believing's epistemic-honesty PAIR (verify-what-you-
+#   claim + admit-what-you-don't), not split. This resolves OPERATIVE edges only — NOT every
+#   see-also/sibling cross-link (watch-fire, speak-directly stay non-core by design).
+# Keep this list in sync with README.md.
 CORE_SKILLS=(
     chengyu-throw-brick-attract-jade
     chengyu-review-old-know-new
     chengyu-listen-all-sides-see-clearly
     chengyu-create-something-from-nothing
+    chengyu-seeing-is-believing
+    chengyu-know-what-you-dont-know
 )
 
 mkdir -p "${SKILLS_DIR}"
