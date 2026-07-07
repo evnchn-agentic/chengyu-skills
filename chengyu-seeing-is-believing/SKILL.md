@@ -26,7 +26,7 @@ Symptoms that this schema applies:
 
 Before any "it works" / "it's done" / "it's fixed" claim, run one two-word gut check: **"Is that assumed or confirmed?"** If the honest answer is *assumed*, you haven't earned the claim yet — go run the check below. It's cheap enough to fire on every completion claim, which is the point: it catches model-confidence-masquerading-as-verification at the exact moment it happens, before the claim leaves your mouth.
 
-*(Phrasing credit: Jeanne Torre, via James Clear's newsletter.)*
+*(Phrasing adapted from a line attributed to Jeanne Torre, via James Clear's newsletter.)*
 
 ## Behavior
 
