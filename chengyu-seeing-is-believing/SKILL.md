@@ -22,6 +22,12 @@ Symptoms that this schema applies:
 - About to say "the UI looks right" — but haven't actually loaded the page in a browser
 - The cost of verification is small (seconds to minutes) and the cost of being wrong is non-trivial (operator trust, downstream confusion, re-work)
 
+## The pre-flight reflex
+
+Before any "it works" / "it's done" / "it's fixed" claim, run one two-word gut check: **"Is that assumed or confirmed?"** If the honest answer is *assumed*, you haven't earned the claim yet — go run the check below. It's cheap enough to fire on every completion claim, which is the point: it catches model-confidence-masquerading-as-verification at the exact moment it happens, before the claim leaves your mouth.
+
+*(Phrasing credit: Jeanne Torre, via James Clear's newsletter.)*
+
 ## Behavior
 
 1. **Recognise the claim about to be made.** "I'm about to say X is done / works / is fixed."
