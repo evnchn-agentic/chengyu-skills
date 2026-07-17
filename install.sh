@@ -17,11 +17,15 @@ ACTION="${1:-install}"
 # know-what-you-dont-know ships as seeing-is-believing's epistemic-honesty PAIR (verify-what-you-
 #   claim + admit-what-you-don't), not split. This resolves OPERATIVE edges only — NOT every
 #   see-also/sibling cross-link (watch-fire, speak-directly stay non-core by design).
+# lost-sheep-repair-fence (亡羊補牢) is the one STANDALONE add beyond podium+deps: it out-fires
+#   every cored dependency and is the most-referenced idiom in real operating docs — a core-only
+#   install that drops it loses a load-bearing reflex. Cored on standalone usage, not a cross-link.
 # Keep this list in sync with README.md.
 CORE_SKILLS=(
     chengyu-throw-brick-attract-jade
     chengyu-review-old-know-new
     chengyu-listen-all-sides-see-clearly
+    chengyu-lost-sheep-repair-fence
     chengyu-create-something-from-nothing
     chengyu-seeing-is-believing
     chengyu-know-what-you-dont-know
