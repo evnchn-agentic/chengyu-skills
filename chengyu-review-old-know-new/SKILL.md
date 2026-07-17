@@ -46,6 +46,8 @@ The discipline above fails quietly if the search itself is wrong — and the fai
 
 **Where sessions live.** `~/.claude/projects/<cwd-encoded>/<session-uuid>.jsonl`. The dir encodes the *full* working directory (slashes → dashes), e.g. `-Users-you-myproject` — **not** one flat per-home dir. So a project's sessions are in their own dir; sweep `~/.claude/projects/*/`. The currently-live session is the most-recently-written JSONL: `ls -t ~/.claude/projects/*/*.jsonl | head -1`.
 
+**Sibling CC homes on the same machine.** `~/.claude` is not necessarily the only home — a machine can run parallel homes (`~/.claude-b/projects`, `~/.claude-nano/projects`, …), and another agent's work may live in one of them. If a *proven-complete* `~/.claude` sweep comes up empty for a cross-agent finding, widen to the siblings (`ls -d ~/.claude*/projects`) before concluding absence. And **`~/.claude/session-status/*.md`** is a cheap breadcrumb *into* the right session — a short per-session checkpoint (state · current task · file/line or JSONL-offset anchors) that beats grepping raw JSONL when one exists; read it first.
+
 **Two filters that look reliable but lie:**
 - **mtime ≠ session date.** File mtime drifts from OS access / unrelated tooling. Date a session by its *first* in-file timestamp: `grep -m1 -oE '"timestamp":"[^"]+"' f.jsonl`. (mtime is trustworthy for exactly one thing: "which session is live right now.")
 - **`grep -c keyword` ≠ relevance.** Substring matches inflate (`exam` inside `example`, listing boilerplate, SVG refs). Anchor on whole-word `\bWORD\b`, on role (`-E '"role":\s*"user"'`), or on the unambiguous `"cwd"` field.
