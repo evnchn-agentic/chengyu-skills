@@ -4,7 +4,7 @@
 
 This is the operator-level discipline of using cultural handles as compressed prompt circuits. A chengyu like 抛磚引玉 ("throw a brick to attract jade") names a specific schema (emit a deliberately rough first pass to elicit refinement) that English doesn't have a clean single-word handle for. The model knows what 抛磚引玉 *means* from training; the SKILL.md teaches the agent what to *do* when the handle fires.
 
-## Start with the core — 6 skills, ~75% less always-on weight
+## Start with the core — 7 skills, ~73% less always-on weight
 
 New here? You don't need all 27. **Live usage across this catalog picked a clear podium** — install the core, and add more only when you actually reach for them.
 
@@ -22,13 +22,16 @@ git clone https://github.com/evnchn-agentic/chengyu-skills.git ~/chengyu-skills
 | `chengyu-throw-brick-attract-jade` (抛磚引玉) | 35 | rank 1 |
 | `chengyu-review-old-know-new` (溫故知新) | 30 | rank 2 |
 | `chengyu-listen-all-sides-see-clearly` (兼聽則明) | 27 | rank 3 |
+| `chengyu-lost-sheep-repair-fence` (亡羊補牢) | 7† | **standalone reflex** — the *mend-the-fence-after-losing-the-sheep* post-incident-fix idiom; out-fires every cored dependency below and is the most-referenced idiom in real operating docs. Cored on its own usage, not as a cross-link. (Re-added after a core-only install silently dropped it.) |
 | `chengyu-create-something-from-nothing` (無中生有) | 3 | **dependency** — `listen-all-sides` inter-triggers it, so it's included for the reference to resolve (subagent-only; won't fire on its own) |
 | `chengyu-seeing-is-believing` (眼見為實) | — | **operative dependency** — `listen-all-sides` invokes it as the verify step of its prompt-injection audit ("Verify 眼見為實"), so it's pulled in for that call to resolve — same rule as `create-from-nothing` |
 | `chengyu-know-what-you-dont-know` (知之為知之) | — | **pair** — `seeing-is-believing`'s epistemic-honesty twin (verify what you claim / admit what you don't); shipped together, not split |
 
 *Selection signal: across ~196 analysed sessions the top 3 account for **92 of 127** chengyu invocations (~72%), while 14 of the catalog's idioms were invoked zero times. Counts are aggregate; the underlying sessions are private and not published.*
 
-**Why a core at all — tokens.** Every installed skill's description sits in the always-on skill list. The core's descriptions total **~830 tokens vs ~3.2k for the full catalog (~75% lighter)** — the proven schemas without the long tail you never fire.
+*† lost-sheep's 7 is from a later, fuller sweep than the ~196-session podium counts above — a different basis, so read it as "well above the dependency tier," not a precise rank against the podium.*
+
+**Why a core at all — tokens.** Every installed skill's description sits in the always-on skill list. The core's descriptions total **~900 tokens vs ~3.2k for the full catalog (~73% lighter)** — the proven schemas without the long tail you never fire.
 
 > Note: `chengyu-listen-all-sides-see-clearly` suggests two `superpowers:` skills (`requesting-code-review`, `dispatching-parallel-agents`) as optional reviewer channels — soft defaults, not hard dependencies; it works without the `superpowers` plugin installed.
 
