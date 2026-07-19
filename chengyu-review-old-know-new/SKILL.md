@@ -68,6 +68,12 @@ find ~/.claude/projects -name '*.jsonl' -exec stat -f '%m %N' {} + \
 ```
 Two honesty caveats: **(1)** this orders/bounds by **file mtime** = *recently touched*, reliable for activity but **not** the session's real date — mtime clusters (empirically a recent-touch window caught ~1680 of ~2030 files), so for a precise "when it happened" window filter on the first in-file `"timestamp"` (above) instead. **(2)** A time- or budget-bounded sweep is **partial** — report it as "searched the N most-recent; older unsearched", never a clean "no prior exists" (same canary discipline: absence is evidence of absence only once the search is proven *complete*).
 
+## Surfacing what you found — follow supercomment shape
+
+The output of retrieval is itself a multi-item synthesis, so **surface it in `supercomment` shape**: a glimpse TL;DR (what the prior decided / what you recovered) on top, with citations (session file + date) and the recovered detail tucked into collapsible evidence underneath. Don't paste raw JSONL excerpts at the user — that's the same unreadable blob the archive started as.
+
+For a **whole-session** review (not just one fact), render the target session via **`rich-render` session-mode** (`session_render.py`) first: it turns the JSONL into a scrubbed, chaptered, supercomment-shaped dashboard you can read and share, instead of grepping blind. The full loop: **render (rich-render) → review (溫故知新, this skill) → surface (supercomment).** Same substrate (session JSONL), three consumers — a person reading it, the agent grepping it, the reader of your synthesis.
+
 ## Cross-node / cross-machine case (optional)
 
 If you operate Claude Code across multiple machines (e.g. a homelab, a work laptop, a personal desktop), the same skill extends:
