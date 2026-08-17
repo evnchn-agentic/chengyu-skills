@@ -1,6 +1,6 @@
 ---
 name: chengyu-create-something-from-nothing
-description: SUBAGENT-ONLY skill for generating a graduated spread of plausible-to-speculative solutions when the main agent is stuck in a local minimum. Output is one continuous artifact (NO dividers) that starts from verified fact and slides into bottom-K speculation; calling main-agent fact-checks throughout. Has TWO HARD PRECONDITIONS that must be met before any output: (1) running on a BullshitBench-passing model (Claude 4.5+ Opus/Sonnet, or equivalent), (2) operator — NOT the agent — explicitly confirms for this invocation that the running model qualifies. Outside subagent context, or without both gates met: ABORT and surface the precondition failure.
+description: SUBAGENT-ONLY skill for generating a graduated spread of plausible-to-speculative solutions when the main agent is stuck in a local minimum. Output is one continuous artifact (NO dividers) that starts from verified fact and slides into bottom-K speculation; calling main-agent fact-checks throughout. Has TWO HARD PRECONDITIONS that must be met before any output: (1) running on a BullshitBench-passing model (Claude Opus 4.5–4.8 / Sonnet 4.5–4.6, or equivalent — NOT the Claude 5 generation), (2) operator — NOT the agent — explicitly confirms for this invocation that the running model qualifies. Outside subagent context, or without both gates met: ABORT and surface the precondition failure.
 ---
 
 # 無中生有 — create something from nothing
@@ -14,7 +14,8 @@ This skill **must not run** unless BOTH hold:
 ### Precondition 1: Model gate
 
 The subagent must be running on a model that has demonstrated robust bullshit-rejection capacity. Reference: BullshitBench-passing models. As of writing:
-- Claude Opus 4.5+, Claude Sonnet 4.5+
+- Claude Opus 4.5–4.8, Claude Sonnet 4.5–4.6
+- **Excluded: Claude Fable 5, Sonnet 5, Opus 5** — all below the best 4.x on clear-pushback rate (Opus 4.8 95%, Sonnet 4.6 91% vs Opus 5 73%, Sonnet 5 80%, Fable 5 54% with 35% refusals). A higher version number is not a pass — check the bench.
 - Other frontier models that have passed BullshitBench evaluation
 
 The skill's value depends entirely on a strong fact-checker downstream. On a model that can't reject bullshit, the speculation cascades into the main loop unchecked — which is the canonical "agent hallucinates and downstream agents believe it" failure mode.
