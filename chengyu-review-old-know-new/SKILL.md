@@ -40,6 +40,12 @@ Symptoms that this schema applies:
 
 5. **Update memory if the prior should be promoted to long-term storage** — write to your skill's memory location. A prior that resurfaces twice is a candidate for permanent memory.
 
+## Surfacing what you found — follow supercomment shape
+
+The output of retrieval is itself a multi-item synthesis, so **surface it in `supercomment` shape**: a glimpse TL;DR (what the prior decided / what you recovered) on top, with citations (session file + date) and the recovered detail tucked into collapsible evidence underneath. Don't paste raw JSONL excerpts at the user — that's the same unreadable blob the archive started as.
+
+For a **whole-session** review (not just one fact), render the target session via **`rich-render` session-mode** (`session_render.py`) first: it turns the JSONL into a scrubbed, chaptered, supercomment-shaped dashboard you can read and share, instead of grepping blind. The full loop: **render (rich-render) → review (溫故知新, this skill) → surface (supercomment).** Same substrate (session JSONL), three consumers — a person reading it, the agent grepping it, the reader of your synthesis.
+
 ## Mechanics (the how)
 
 The discipline above fails quietly if the search itself is wrong — and the failure mode is the worst one: a *false "no prior exists"* that sends you re-deriving. The traps:
